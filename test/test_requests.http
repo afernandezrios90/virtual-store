@@ -1,0 +1,10 @@
+### Get products
+GET http://localhost:5000/products
+
+### Buy a product
+POST http://localhost:5000/buy/1
+Content-Type: application/json
+
+### Buy a non-existent product
+POST http://localhost:5000/buy/100
+Content-Type: application/json
