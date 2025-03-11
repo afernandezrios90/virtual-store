@@ -1,7 +1,12 @@
 from flask import Flask, jsonify, request
 import random
+import logging
+import time
 
 app = Flask(__name__)
+
+# Logging configuration
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Product simulation
 PRODUCTS = [
@@ -9,6 +14,24 @@ PRODUCTS = [
     {"id": 2, "name": "Jeans", "price": 70},
     {"id": 3, "name": "Socks", "price": 15},
 ]
+
+# Timers for requests
+@app.before_request
+def start_timer():
+    request.start_time = time.time()
+
+@app.after_request
+def log_request_time(response):
+    duration = time.time() - request.start_time
+    log_data = {
+        "client_ip": request.remote_addr,
+        "path": request.path,
+        "method": request.method,
+        "status_code": response.status_code,
+        "duration": f"{duration:.4f}s"
+    }
+    logging.info("Request from %(client_ip)s to %(path)s with %(method)s method responded with %(status_code)s in %(duration)s", log_data)
+    return response
 
 @app.route('/')
 def home():
