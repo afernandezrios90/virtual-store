@@ -9,9 +9,9 @@ services:
     ports:
       - "5000:5000"
     restart: unless-stopped
-#    networks:
-#      - grafana-network
+    networks:
+      - grafana-network
 
-#networks:
-#  grafana-network:
-#    external: true # Red ya creada en mi despliegue de Grafana
+networks:
+  grafana-network:
+    external: true # Red ya creada en mi despliegue de Grafana
